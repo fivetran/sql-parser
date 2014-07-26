@@ -46,6 +46,7 @@ import com.foundationdb.sql.StandardException;
  * and performs some action. 
  *
  */
+@FunctionalInterface
 public interface Visitor
 {
     /**
@@ -79,7 +80,9 @@ public interface Visitor
      * @return {@code true} if {@code node}'s children should be visited
      * before {@code node}, {@code false} otherwise
      */
-    boolean visitChildrenFirst(Visitable node);
+    default boolean visitChildrenFirst(Visitable node) {
+        return false;
+    }
 
     /**
      * Method that is called to see
@@ -90,7 +93,9 @@ public interface Visitor
      *
      * @return true/false
      */
-    boolean stopTraversal();
+    default boolean stopTraversal() {
+        return false;
+    }
 
     /**
      * Method that is called to indicate whether
@@ -107,5 +112,7 @@ public interface Visitor
      * 
      * @return true/false
      */
-    boolean skipChildren(Visitable node) throws StandardException;
+    default boolean skipChildren(Visitable node) throws StandardException {
+        return false;
+    }
 }
