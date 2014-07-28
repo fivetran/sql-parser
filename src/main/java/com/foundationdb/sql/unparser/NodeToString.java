@@ -16,12 +16,11 @@
 
 package com.foundationdb.sql.unparser;
 
+import com.foundationdb.sql.StandardException;
 import com.foundationdb.sql.parser.*;
 
 import java.util.Locale;
 import java.util.Map;
-
-import com.foundationdb.sql.StandardException;
 
 public class NodeToString
 {
@@ -299,7 +298,7 @@ public class NodeToString
     {
         StringBuilder builder = new StringBuilder("INDEX ");
         
-        String indexName = node.getName();
+        String indexName = maybeQuote(node.getName());
         
         if (indexName != null)
             builder.append(indexName).append(' ');
@@ -382,7 +381,7 @@ public class NodeToString
 
     protected String columnDefinitionNode(ColumnDefinitionNode node)
             throws StandardException {
-        String basis = node.getColumnName() + " " + node.getType();
+        String basis = maybeQuote(node.getColumnName()) + " " + node.getType();
         if( node.getDefaultNode() != null ) {
             return basis + toString(node.getDefaultNode());
         }
@@ -479,7 +478,7 @@ public class NodeToString
             str.append(toString(node.getTableName()));
             str.append(".");
         }
-        str.append(node.getColumnName());
+        str.append(maybeQuote(node.getColumnName()));
         if (!node.isAscending())
             str.append(" DESC");
         return str.toString();
@@ -524,19 +523,19 @@ public class NodeToString
     protected String renameNode(RenameNode node) throws StandardException {
         if (node.isAlterTable()) {
             return "ALTER TABLE " + toString(node.getObjectName()) +
-                "RENAME COLUMN " + node.getOldObjectName() +
-                " TO " + node.getNewObjectName();
+                "RENAME COLUMN " + maybeQuote(node.getOldObjectName()) +
+                " TO " + maybeQuote(node.getNewObjectName());
         }
         else if (node.getRenameType() == RenameNode.RenameType.INDEX
                     || node.getRenameType() == RenameNode.RenameType.COLUMN) {
             if (node.getObjectName() == null) {
-                return node.statementToString() + " " + node.getOldObjectName() +
-                    " TO " + node.getNewObjectName();
+                return node.statementToString() + " " + maybeQuote(node.getOldObjectName()) +
+                    " TO " + maybeQuote(node.getNewObjectName());
             }
             else {
                 return node.statementToString() + " " + toString(node.getObjectName()) +
-                    "." + node.getOldObjectName() +
-                    " TO " + node.getNewObjectName();
+                    "." + maybeQuote(node.getOldObjectName()) +
+                    " TO " + maybeQuote(node.getNewObjectName());
             }
         }
         else {
@@ -552,7 +551,7 @@ public class NodeToString
             str.append(toString(node.getObjectName()));
             str.append(".");
         }
-        str.append(node.getIndexName());
+        str.append(maybeQuote(node.getIndexName()));
         return str.toString();
     }
 
@@ -729,7 +728,7 @@ public class NodeToString
         if (node.getReference() != null)
             return toString(node.getReference());
 
-        String n = node.getName();
+        String n = maybeQuote(node.getName());
         if (node.getExpression() == null)
             return n;
 
@@ -744,7 +743,7 @@ public class NodeToString
 		if (node.getFullTableName() == null) {
         	return "*";
 		} else {
-			return node.getFullTableName() + ".*";
+			return maybeQuote(node.getFullTableName()) + ".*";
 		}
 
     }
@@ -755,7 +754,7 @@ public class NodeToString
 
     protected String fromBaseTable(FromBaseTable node) throws StandardException {
         String tn = toString(node.getOrigTableName());
-        String n = node.getCorrelationName();
+        String n = maybeQuote(node.getCorrelationName());
         if (n == null)
             return tn;
         else
@@ -771,7 +770,7 @@ public class NodeToString
         str.insert(0, '(');
         str.append(')');
         str.append(" AS ");
-        str.append(node.getCorrelationName());
+        str.append(maybeQuote(node.getCorrelationName()));
         if (node.getResultColumns() != null) {
             str.append('(');
             str.append(toString(node.getResultColumns()));
@@ -812,15 +811,41 @@ public class NodeToString
     }
 
     protected String tableName(TableName node) throws StandardException {
-        return node.getFullTableName();
+        String schema = node.getSchemaName();
+        String table = node.getTableName();
+
+        if (schema == null)
+            return maybeQuote(table);
+        else
+            return maybeQuote(schema) + "." + maybeQuote(table);
     }
 
     protected String columnReference(ColumnReference node) throws StandardException {
-        return node.getSQLColumnName();
+        // TODO does maybeQuote(node.getTableName()) deal with schema names correctly?
+        String tableName = node.getTableName();
+        String columnName = node.getColumnName();
+
+        if (tableName != null)
+            return maybeQuote(tableName) + "." + maybeQuote(columnName);
+        else
+            return maybeQuote(columnName);
+    }
+
+    /** Quote a column name if it contains $ */
+    private String maybeQuote(String identifier) {
+        // If identifier matches IDENTIFIER from SQLGrammer.jj, no need for quotes
+        // TODO IDENTIFIER has some unicode characters, need to either
+        // TODO use the generated grammar or write a really long regex
+        if (identifier == null)
+            return null;
+        else if (identifier.matches("[a-zA-Z_][a-zA-Z0-9_$]*"))
+            return identifier;
+        else
+            return '"' + identifier + '"';
     }
 
     protected String virtualColumnNode(VirtualColumnNode node) throws StandardException {
-        return node.getSourceColumn().getName();
+        return maybeQuote(node.getSourceColumn().getName());
     }
 
     protected String groupByList(GroupByList node) throws StandardException {
