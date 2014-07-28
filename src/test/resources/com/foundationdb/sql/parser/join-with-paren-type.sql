@@ -1,0 +1,1 @@
+SELECT * FROM t JOIN u ON (t.a)::text = (u.b)::text

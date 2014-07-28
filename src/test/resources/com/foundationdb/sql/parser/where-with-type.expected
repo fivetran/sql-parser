@@ -1,0 +1,44 @@
+com.foundationdb.sql.parser.CursorNode@353d0772
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@2667f029
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@67a20f67
+
+		[0]:		
+		com.foundationdb.sql.parser.AllResultColumn@57c758ac
+		tableName: null
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@a9cd3b1
+
+		[0]:		
+		com.foundationdb.sql.parser.FromBaseTable@13e39c73
+		tableName: t
+		updateOrDelete: null
+		null
+		correlation Name: null
+		null
+	whereClause: 		
+		com.foundationdb.sql.parser.BinaryRelationalOperatorNode@64cd705f
+		operator: =
+		methodName: equals
+		type: null
+		leftOperand: 			
+			com.foundationdb.sql.parser.JavaToSQLValueNode@9225652
+			type: null
+			javaNode: 				
+				com.foundationdb.sql.parser.StaticClassFieldReferenceNode@654f0d9c
+
+		rightOperand: 			
+			com.foundationdb.sql.parser.JavaToSQLValueNode@6a400542
+			type: null
+			javaNode: 				
+				com.foundationdb.sql.parser.StaticClassFieldReferenceNode@6580cfdd
