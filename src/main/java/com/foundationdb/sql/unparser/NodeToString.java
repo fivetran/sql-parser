@@ -1,12 +1,12 @@
 /**
  * Copyright 2011-2013 FoundationDB, LLC
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -299,20 +299,20 @@ public class NodeToString
     protected String indexDefinitionNode(IndexDefinitionNode node) throws StandardException
     {
         StringBuilder builder = new StringBuilder("INDEX ");
-        
+
         String indexName = maybeQuote(node.getName());
-        
+
         if (indexName != null)
             builder.append(indexName).append(' ');
-        
+
         builder.append('(')
                .append(indexColumnList(node.getIndexColumnList()))
                .append(')');
-        
+
         StorageFormatNode storage = node.getStorageFormat();
         if (storage != null)
             builder.append(toString(storage));
-        
+
         return builder.toString();
     }
 
@@ -390,7 +390,7 @@ public class NodeToString
         return basis;
     }
 
-    protected String constraintDefinitionNode(ConstraintDefinitionNode node) 
+    protected String constraintDefinitionNode(ConstraintDefinitionNode node)
             throws StandardException {
         switch (node.getConstraintType()) {
         case PRIMARY_KEY:
@@ -427,7 +427,7 @@ public class NodeToString
             str.append("UNIQUE ");
         str.append("INDEX");
         str.append(" ");
-        
+
         switch (node.getExistenceCheck())
         {
             case IF_EXISTS:
@@ -435,7 +435,7 @@ public class NodeToString
                 break;
             case IF_NOT_EXISTS:
                 str.append("IF NOT EXISTS ");
-                break;  
+                break;
         }
 
         str.append(toString(node.getIndexName()));
@@ -725,7 +725,7 @@ public class NodeToString
     protected String resultColumnList(ResultColumnList node) throws StandardException {
         return nodeList(node);
     }
-    
+
     protected String resultColumn(ResultColumn node) throws StandardException {
         if (node.getReference() != null)
             return toString(node.getReference());
@@ -785,7 +785,7 @@ public class NodeToString
         StringBuilder str = new StringBuilder(toString(node.getLeftResultSet()));
         JoinNode.JoinType joinType = JoinNode.JoinType.INNER;
         if (node instanceof HalfOuterJoinNode)
-            joinType = ((HalfOuterJoinNode)node).isRightOuterJoin() ? 
+            joinType = ((HalfOuterJoinNode)node).isRightOuterJoin() ?
                 JoinNode.JoinType.RIGHT_OUTER : JoinNode.JoinType.LEFT_OUTER;
         else if (node instanceof FullOuterJoinNode)
             joinType = JoinNode.JoinType.FULL_OUTER;
@@ -808,7 +808,7 @@ public class NodeToString
     }
 
     protected String unionNode(UnionNode node) throws StandardException {
-        return toString(node.getLeftResultSet()) + " UNION " + 
+        return toString(node.getLeftResultSet()) + " UNION " +
                toString(node.getRightResultSet());
     }
 
@@ -847,838 +847,270 @@ public class NodeToString
     }
 
     private static boolean isReserved(String word) {
-        return RESERVED_WORDS.contains(word.toUpperCase());
+        return RESERVED_WORDS.contains(word.toLowerCase());
     }
-    
+
     private static final Set<String> RESERVED_WORDS = getReservedWords();
 
-    /** From https://www.drupal.org/node/141051 */
     private static Set<String> getReservedWords() {
-        String[] reserved = {
-                "ABORT",
-                "ABS",
-                "ABSOLUTE",
-                "ACCESS",
-                "ACTION",
-                "ADA",
-                "ADD",
-                "ADMIN",
-                "AFTER",
-                "AGGREGATE",
-                "ALIAS",
-                "ALL",
-                "ALLOCATE",
-                "ALSO",
-                "ALTER",
-                "ALWAYS",
-                "ANALYSE",
-                "ANALYZE",
-                "AND",
-                "ANY",
-                "ARE",
-                "ARRAY",
-                "AS",
-                "ASC",
-                "ASENSITIVE",
-                "ASSERTION",
-                "ASSIGNMENT",
-                "ASYMMETRIC",
-                "AT",
-                "ATOMIC",
-                "ATTRIBUTE",
-                "ATTRIBUTES",
-                "AUDIT",
-                "AUTHORIZATION",
-                "AUTO_INCREMENT",
-                "AVG",
-                "AVG_ROW_LENGTH",
-                "BACKUP",
-                "BACKWARD",
-                "BEFORE",
-                "BEGIN",
-                "BERNOULLI",
-                "BETWEEN",
-                "BIGINT",
-                "BINARY",
-                "BIT",
-                "BIT_LENGTH",
-                "BITVAR",
-                "BLOB",
-                "BOOL",
-                "BOOLEAN",
-                "BOTH",
-                "BREADTH",
-                "BREAK",
-                "BROWSE",
-                "BULK",
-                "BY",
-                "CACHE",
-                "CALL",
-                "CALLED",
-                "CARDINALITY",
-                "CASCADE",
-                "CASCADED",
-                "CASE",
-                "CAST",
-                "CATALOG",
-                "CATALOG_NAME",
-                "CEIL",
-                "CEILING",
-                "CHAIN",
-                "CHANGE",
-                "CHAR",
-                "CHAR_LENGTH",
-                "CHARACTER",
-                "CHARACTER_LENGTH",
-                "CHARACTER_SET_CATALOG",
-                "CHARACTER_SET_NAME",
-                "CHARACTER_SET_SCHEMA",
-                "CHARACTERISTICS",
-                "CHARACTERS",
-                "CHECK",
-                "CHECKED",
-                "CHECKPOINT",
-                "CHECKSUM",
-                "CLASS",
-                "CLASS_ORIGIN",
-                "CLOB",
-                "CLOSE",
-                "CLUSTER",
-                "CLUSTERED",
-                "COALESCE",
-                "COBOL",
-                "COLLATE",
-                "COLLATION",
-                "COLLATION_CATALOG",
-                "COLLATION_NAME",
-                "COLLATION_SCHEMA",
-                "COLLECT",
-                "COLUMN",
-                "COLUMN_NAME",
-                "COLUMNS",
-                "COMMAND_FUNCTION",
-                "COMMAND_FUNCTION_CODE",
-                "COMMENT",
-                "COMMIT",
-                "COMMITTED",
-                "COMPLETION",
-                "COMPRESS",
-                "COMPUTE",
-                "CONDITION",
-                "CONDITION_NUMBER",
-                "CONNECT",
-                "CONNECTION",
-                "CONNECTION_NAME",
-                "CONSTRAINT",
-                "CONSTRAINT_CATALOG",
-                "CONSTRAINT_NAME",
-                "CONSTRAINT_SCHEMA",
-                "CONSTRAINTS",
-                "CONSTRUCTOR",
-                "CONTAINS",
-                "CONTAINSTABLE",
-                "CONTINUE",
-                "CONVERSION",
-                "CONVERT",
-                "COPY",
-                "CORR",
-                "CORRESPONDING",
-                "COUNT",
-                "COVAR_POP",
-                "COVAR_SAMP",
-                "CREATE",
-                "CREATEDB",
-                "CREATEROLE",
-                "CREATEUSER",
-                "CROSS",
-                "CSV",
-                "CUBE",
-                "CUME_DIST",
-                "CURRENT",
-                "CURRENT_DATE",
-                "CURRENT_DEFAULT_TRANSFORM_GROUP",
-                "CURRENT_PATH",
-                "CURRENT_ROLE",
-                "CURRENT_TIME",
-                "CURRENT_TIMESTAMP",
-                "CURRENT_TRANSFORM_GROUP_FOR_TYPE",
-                "CURRENT_USER",
-                "CURSOR",
-                "CURSOR_NAME",
-                "CYCLE",
-                "DATA",
-                "DATABASE",
-                "DATABASES",
-                "DATE",
-                "DATETIME",
-                "DATETIME_INTERVAL_CODE",
-                "DATETIME_INTERVAL_PRECISION",
-                "DAY",
-                "DAY_HOUR",
-                "DAY_MICROSECOND",
-                "DAY_MINUTE",
-                "DAY_SECOND",
-                "DAYOFMONTH",
-                "DAYOFWEEK",
-                "DAYOFYEAR",
-                "DBCC",
-                "DEALLOCATE",
-                "DEC",
-                "DECIMAL",
-                "DECLARE",
-                "DEFAULT",
-                "DEFAULTS",
-                "DEFERRABLE",
-                "DEFERRED",
-                "DEFINED",
-                "DEFINER",
-                "DEGREE",
-                "DELAY_KEY_WRITE",
-                "DELAYED",
-                "DELETE",
-                "DELIMITER",
-                "DELIMITERS",
-                "DENSE_RANK",
-                "DENY",
-                "DEPTH",
-                "DEREF",
-                "DERIVED",
-                "DESC",
-                "DESCRIBE",
-                "DESCRIPTOR",
-                "DESTROY",
-                "DESTRUCTOR",
-                "DETERMINISTIC",
-                "DIAGNOSTICS",
-                "DICTIONARY",
-                "DISABLE",
-                "DISCONNECT",
-                "DISK",
-                "DISPATCH",
-                "DISTINCT",
-                "DISTINCTROW",
-                "DISTRIBUTED",
-                "DIV",
-                "DO",
-                "DOMAIN",
-                "DOUBLE",
-                "DROP",
-                "DUAL",
-                "DUMMY",
-                "DUMP",
-                "DYNAMIC",
-                "DYNAMIC_FUNCTION",
-                "DYNAMIC_FUNCTION_CODE",
-                "EACH",
-                "ELEMENT",
-                "ELSE",
-                "ELSEIF",
-                "ENABLE",
-                "ENCLOSED",
-                "ENCODING",
-                "ENCRYPTED",
-                "END",
-                "ENUM",
-                "EQUALS",
-                "ERRLVL",
-                "ESCAPE",
-                "ESCAPED",
-                "EVERY",
-                "EXCEPT",
-                "EXCEPTION",
-                "EXCLUDE",
-                "EXCLUDING",
-                "EXCLUSIVE",
-                "EXEC",
-                "EXECUTE",
-                "EXISTING",
-                "EXISTS",
-                "EXIT",
-                "EXP",
-                "EXPLAIN",
-                "EXTERNAL",
-                "EXTRACT",
-                "FALSE",
-                "FETCH",
-                "FIELDS",
-                "FILE",
-                "FILLFACTOR",
-                "FILTER",
-                "FINAL",
-                "FIRST",
-                "FLOAT",
-                "FLOAT4",
-                "FLOAT8",
-                "FLOOR",
-                "FLUSH",
-                "FOLLOWING",
-                "FOR",
-                "FORCE",
-                "FOREIGN",
-                "FORTRAN",
-                "FORWARD",
-                "FOUND",
-                "FREE",
-                "FREETEXT",
-                "FREETEXTTABLE",
-                "FREEZE",
-                "FROM",
-                "FULL",
-                "FULLTEXT",
-                "FUNCTION",
-                "FUSION",
-                "GENERAL",
-                "GENERATED",
-                "GET",
-                "GLOBAL",
-                "GO",
-                "GOTO",
-                "GRANT",
-                "GRANTED",
-                "GRANTS",
-                "GREATEST",
-                "GROUP",
-                "GROUPING",
-                "HANDLER",
-                "HAVING",
-                "HEADER",
-                "HEAP",
-                "HIERARCHY",
-                "HIGH_PRIORITY",
-                "HOLD",
-                "HOLDLOCK",
-                "HOST",
-                "HOSTS",
-                "HOUR",
-                "HOUR_MICROSECOND",
-                "HOUR_MINUTE",
-                "HOUR_SECOND",
-                "IDENTIFIED",
-                "IDENTITY",
-                "IDENTITY_INSERT",
-                "IDENTITYCOL",
-                "IF",
-                "IGNORE",
-                "ILIKE",
-                "IMMEDIATE",
-                "IMMUTABLE",
-                "IMPLEMENTATION",
-                "IMPLICIT",
-                "IN",
-                "INCLUDE",
-                "INCLUDING",
-                "INCREMENT",
-                "INDEX",
-                "INDICATOR",
-                "INFILE",
-                "INFIX",
-                "INHERIT",
-                "INHERITS",
-                "INITIAL",
-                "INITIALIZE",
-                "INITIALLY",
-                "INNER",
-                "INOUT",
-                "INPUT",
-                "INSENSITIVE",
-                "INSERT",
-                "INSERT_ID",
-                "INSTANCE",
-                "INSTANTIABLE",
-                "INSTEAD",
-                "INT",
-                "INT1",
-                "INT2",
-                "INT3",
-                "INT4",
-                "INT8",
-                "INTEGER",
-                "INTERSECT",
-                "INTERSECTION",
-                "INTERVAL",
-                "INTO",
-                "INVOKER",
-                "IS",
-                "ISAM",
-                "ISNULL",
-                "ISOLATION",
-                "ITERATE",
-                "JOIN",
-                "KEY",
-                "KEY_MEMBER",
-                "KEY_TYPE",
-                "KEYS",
-                "KILL",
-                "LANCOMPILER",
-                "LANGUAGE",
-                "LARGE",
-                "LAST",
-                "LAST_INSERT_ID",
-                "LATERAL",
-                "LEADING",
-                "LEAST",
-                "LEAVE",
-                "LEFT",
-                "LENGTH",
-                "LESS",
-                "LEVEL",
-                "LIKE",
-                "LIMIT",
-                "LINENO",
-                "LINES",
-                "LISTEN",
-                "LN",
-                "LOAD",
-                "LOCAL",
-                "LOCALTIME",
-                "LOCALTIMESTAMP",
-                "LOCATION",
-                "LOCATOR",
-                "LOCK",
-                "LOGIN",
-                "LOGS",
-                "LONG",
-                "LONGBLOB",
-                "LONGTEXT",
-                "LOOP",
-                "LOW_PRIORITY",
-                "LOWER",
-                "MAP",
-                "MATCH",
-                "MATCHED",
-                "MAX",
-                "MAX_ROWS",
-                "MAXEXTENTS",
-                "MAXVALUE",
-                "MEDIUMBLOB",
-                "MEDIUMINT",
-                "MEDIUMTEXT",
-                "MEMBER",
-                "MERGE",
-                "MESSAGE_LENGTH",
-                "MESSAGE_OCTET_LENGTH",
-                "MESSAGE_TEXT",
-                "METHOD",
-                "MIDDLEINT",
-                "MIN",
-                "MIN_ROWS",
-                "MINUS",
-                "MINUTE",
-                "MINUTE_MICROSECOND",
-                "MINUTE_SECOND",
-                "MINVALUE",
-                "MLSLABEL",
-                "MOD",
-                "MODE",
-                "MODIFIES",
-                "MODIFY",
-                "MODULE",
-                "MONTH",
-                "MONTHNAME",
-                "MORE",
-                "MOVE",
-                "MULTISET",
-                "MUMPS",
-                "MYISAM",
-                "NAME",
-                "NAMES",
-                "NATIONAL",
-                "NATURAL",
-                "NCHAR",
-                "NCLOB",
-                "NESTING",
-                "NEW",
-                "NEXT",
-                "NO",
-                "NO_WRITE_TO_BINLOG",
-                "NOAUDIT",
-                "NOCHECK",
-                "NOCOMPRESS",
-                "NOCREATEDB",
-                "NOCREATEROLE",
-                "NOCREATEUSER",
-                "NOINHERIT",
-                "NOLOGIN",
-                "NONCLUSTERED",
-                "NONE",
-                "NORMALIZE",
-                "NORMALIZED",
-                "NOSUPERUSER",
-                "NOT",
-                "NOTHING",
-                "NOTIFY",
-                "NOTNULL",
-                "NOWAIT",
-                "NULL",
-                "NULLABLE",
-                "NULLIF",
-                "NULLS",
-                "NUMBER",
-                "NUMERIC",
-                "OBJECT",
-                "OCTET_LENGTH",
-                "OCTETS",
-                "OF",
-                "OFF",
-                "OFFLINE",
-                "OFFSET",
-                "OFFSETS",
-                "OIDS",
-                "OLD",
-                "ON",
-                "ONLINE",
-                "ONLY",
-                "OPEN",
-                "OPENDATASOURCE",
-                "OPENQUERY",
-                "OPENROWSET",
-                "OPENXML",
-                "OPERATION",
-                "OPERATOR",
-                "OPTIMIZE",
-                "OPTION",
-                "OPTIONALLY",
-                "OPTIONS",
-                "OR",
-                "ORDER",
-                "ORDERING",
-                "ORDINALITY",
-                "OTHERS",
-                "OUT",
-                "OUTER",
-                "OUTFILE",
-                "OUTPUT",
-                "OVER",
-                "OVERLAPS",
-                "OVERLAY",
-                "OVERRIDING",
-                "OWNER",
-                "PACK_KEYS",
-                "PAD",
-                "PARAMETER",
-                "PARAMETER_MODE",
-                "PARAMETER_NAME",
-                "PARAMETER_ORDINAL_POSITION",
-                "PARAMETER_SPECIFIC_CATALOG",
-                "PARAMETER_SPECIFIC_NAME",
-                "PARAMETER_SPECIFIC_SCHEMA",
-                "PARAMETERS",
-                "PARTIAL",
-                "PARTITION",
-                "PASCAL",
-                "PASSWORD",
-                "PATH",
-                "PCTFREE",
-                "PERCENT",
-                "PERCENT_RANK",
-                "PERCENTILE_CONT",
-                "PERCENTILE_DISC",
-                "PLACING",
-                "PLAN",
-                "PLI",
-                "POSITION",
-                "POSTFIX",
-                "POWER",
-                "PRECEDING",
-                "PRECISION",
-                "PREFIX",
-                "PREORDER",
-                "PREPARE",
-                "PREPARED",
-                "PRESERVE",
-                "PRIMARY",
-                "PRINT",
-                "PRIOR",
-                "PRIVILEGES",
-                "PROC",
-                "PROCEDURAL",
-                "PROCEDURE",
-                "PROCESS",
-                "PROCESSLIST",
-                "PUBLIC",
-                "PURGE",
-                "QUOTE",
-                "RAID0",
-                "RAISERROR",
-                "RANGE",
-                "RANK",
-                "RAW",
-                "READ",
-                "READS",
-                "READTEXT",
-                "REAL",
-                "RECHECK",
-                "RECONFIGURE",
-                "RECURSIVE",
-                "REF",
-                "REFERENCES",
-                "REFERENCING",
-                "REGEXP",
-                "REGR_AVGX",
-                "REGR_AVGY",
-                "REGR_COUNT",
-                "REGR_INTERCEPT",
-                "REGR_R2",
-                "REGR_SLOPE",
-                "REGR_SXX",
-                "REGR_SXY",
-                "REGR_SYY",
-                "REINDEX",
-                "RELATIVE",
-                "RELEASE",
-                "RELOAD",
-                "RENAME",
-                "REPEAT",
-                "REPEATABLE",
-                "REPLACE",
-                "REPLICATION",
-                "REQUIRE",
-                "RESET",
-                "RESIGNAL",
-                "RESOURCE",
-                "RESTART",
-                "RESTORE",
-                "RESTRICT",
-                "RESULT",
-                "RETURN",
-                "RETURNED_CARDINALITY",
-                "RETURNED_LENGTH",
-                "RETURNED_OCTET_LENGTH",
-                "RETURNED_SQLSTATE",
-                "RETURNS",
-                "REVOKE",
-                "RIGHT",
-                "RLIKE",
-                "ROLE",
-                "ROLLBACK",
-                "ROLLUP",
-                "ROUTINE",
-                "ROUTINE_CATALOG",
-                "ROUTINE_NAME",
-                "ROUTINE_SCHEMA",
-                "ROW",
-                "ROW_COUNT",
-                "ROW_NUMBER",
-                "ROWCOUNT",
-                "ROWGUIDCOL",
-                "ROWID",
-                "ROWNUM",
-                "ROWS",
-                "RULE",
-                "SAVE",
-                "SAVEPOINT",
-                "SCALE",
-                "SCHEMA",
-                "SCHEMA_NAME",
-                "SCHEMAS",
-                "SCOPE",
-                "SCOPE_CATALOG",
-                "SCOPE_NAME",
-                "SCOPE_SCHEMA",
-                "SCROLL",
-                "SEARCH",
-                "SECOND",
-                "SECOND_MICROSECOND",
-                "SECTION",
-                "SECURITY",
-                "SELECT",
-                "SELF",
-                "SENSITIVE",
-                "SEPARATOR",
-                "SEQUENCE",
-                "SERIALIZABLE",
-                "SERVER_NAME",
-                "SESSION",
-                "SESSION_USER",
-                "SET",
-                "SETOF",
-                "SETS",
-                "SETUSER",
-                "SHARE",
-                "SHOW",
-                "SHUTDOWN",
-                "SIGNAL",
-                "SIMILAR",
-                "SIMPLE",
-                "SIZE",
-                "SMALLINT",
-                "SOME",
-                "SONAME",
-                "SOURCE",
-                "SPACE",
-                "SPATIAL",
-                "SPECIFIC",
-                "SPECIFIC_NAME",
-                "SPECIFICTYPE",
-                "SQL",
-                "SQL_BIG_RESULT",
-                "SQL_BIG_SELECTS",
-                "SQL_BIG_TABLES",
-                "SQL_CALC_FOUND_ROWS",
-                "SQL_LOG_OFF",
-                "SQL_LOG_UPDATE",
-                "SQL_LOW_PRIORITY_UPDATES",
-                "SQL_SELECT_LIMIT",
-                "SQL_SMALL_RESULT",
-                "SQL_WARNINGS",
-                "SQLCA",
-                "SQLCODE",
-                "SQLERROR",
-                "SQLEXCEPTION",
-                "SQLSTATE",
-                "SQLWARNING",
-                "SQRT",
-                "SSL",
-                "STABLE",
-                "START",
-                "STARTING",
-                "STATE",
-                "STATEMENT",
-                "STATIC",
-                "STATISTICS",
-                "STATUS",
-                "STDDEV_POP",
-                "STDDEV_SAMP",
-                "STDIN",
-                "STDOUT",
-                "STORAGE",
-                "STRAIGHT_JOIN",
-                "STRICT",
-                "STRING",
-                "STRUCTURE",
-                "STYLE",
-                "SUBCLASS_ORIGIN",
-                "SUBLIST",
-                "SUBMULTISET",
-                "SUBSTRING",
-                "SUCCESSFUL",
-                "SUM",
-                "SUPERUSER",
-                "SYMMETRIC",
-                "SYNONYM",
-                "SYSDATE",
-                "SYSID",
-                "SYSTEM",
-                "SYSTEM_USER",
-                "TABLE",
-                "TABLE_NAME",
-                "TABLES",
-                "TABLESAMPLE",
-                "TABLESPACE",
-                "TEMP",
-                "TEMPLATE",
-                "TEMPORARY",
-                "TERMINATE",
-                "TERMINATED",
-                "TEXT",
-                "TEXTSIZE",
-                "THAN",
-                "THEN",
-                "TIES",
-                "TIME",
-                "TIMESTAMP",
-                "TIMEZONE_HOUR",
-                "TIMEZONE_MINUTE",
-                "TINYBLOB",
-                "TINYINT",
-                "TINYTEXT",
-                "TO",
-                "TOAST",
-                "TOP",
-                "TOP_LEVEL_COUNT",
-                "TRAILING",
-                "TRAN",
-                "TRANSACTION",
-                "TRANSACTION_ACTIVE",
-                "TRANSACTIONS_COMMITTED",
-                "TRANSACTIONS_ROLLED_BACK",
-                "TRANSFORM",
-                "TRANSFORMS",
-                "TRANSLATE",
-                "TRANSLATION",
-                "TREAT",
-                "TRIGGER",
-                "TRIGGER_CATALOG",
-                "TRIGGER_NAME",
-                "TRIGGER_SCHEMA",
-                "TRIM",
-                "TRUE",
-                "TRUNCATE",
-                "TRUSTED",
-                "TSEQUAL",
-                "TYPE",
-                "UESCAPE",
-                "UID",
-                "UNBOUNDED",
-                "UNCOMMITTED",
-                "UNDER",
-                "UNDO",
-                "UNENCRYPTED",
-                "UNION",
-                "UNIQUE",
-                "UNKNOWN",
-                "UNLISTEN",
-                "UNLOCK",
-                "UNNAMED",
-                "UNNEST",
-                "UNSIGNED",
-                "UNTIL",
-                "UPDATE",
-                "UPDATETEXT",
-                "UPPER",
-                "USAGE",
-                "USE",
-                "USER",
-                "USER_DEFINED_TYPE_CATALOG",
-                "USER_DEFINED_TYPE_CODE",
-                "USER_DEFINED_TYPE_NAME",
-                "USER_DEFINED_TYPE_SCHEMA",
-                "USING",
-                "UTC_DATE",
-                "UTC_TIME",
-                "UTC_TIMESTAMP",
-                "VACUUM",
-                "VALID",
-                "VALIDATE",
-                "VALIDATOR",
-                "VALUE",
-                "VALUES",
-                "VAR_POP",
-                "VAR_SAMP",
-                "VARBINARY",
-                "VARCHAR",
-                "VARCHAR2",
-                "VARCHARACTER",
-                "VARIABLE",
-                "VARIABLES",
-                "VARYING",
-                "VERBOSE",
-                "VIEW",
-                "VOLATILE",
-                "WAITFOR",
-                "WHEN",
-                "WHENEVER",
-                "WHERE",
-                "WHILE",
-                "WIDTH_BUCKET",
-                "WINDOW",
-                "WITH",
-                "WITHIN",
-                "WITHOUT",
-                "WORK",
-                "WRITE",
-                "WRITETEXT",
-                "X509",
-                "XOR",
-                "YEAR",
-                "YEAR_MONTH",
-                "ZEROFILL",
-                "ZONE",
+
+        // From SQLGrammar.jj
+        String[] sql92ReservedKeywords = {
+                "add",
+                "all",
+                "allocate",
+                "alter",
+                "and",
+                "any",
+                "are",
+                "as",
+                "asc",
+                "assertion",
+                "at",
+                "authorization",
+                "avg",
+                "begin",
+                "between",
+                "binary",
+                "bit",
+                "both",
+                "by",
+                "cascade",
+                "cascaded",
+                "case",
+                "cast",
+                "char",
+                "character",
+                "character_length",
+                "char_length",
+                "check",
+                "close",
+                "coalesce",
+                "collate",
+                "collation",
+                "column",
+                "commit",
+                "connect",
+                "connection",
+                "constraint",
+                "constraints",
+                "continue",
+                "convert",
+                "corresponding",
+                "count",
+                "create",
+                "cross",
+                "current",
+                "current_date",
+                "current_time",
+                "current_timestamp",
+                "current_user",
+                "cursor",
+                "d",
+                "deallocate",
+                "dec",
+                "decimal",
+                "declare",
+                "default",
+                "deferrable",
+                "deferred",
+                "delete",
+                "desc",
+                "describe",
+                "diagnostics",
+                "disconnect",
+                "distinct",
+                "double",
+                "drop",
+                "else",
+                "end",
+                "end-exec",
+                "escape",
+                "except",
+                "exception",
+                "exec",
+                "execute",
+                "exists",
+                "external",
+                "false",
+                "fetch",
+                "first",
+                "float",
+                "for",
+                "foreign",
+                "found",
+                "from",
+                "full",
+                "function",
+                "get",
+                "global",
+                "go",
+                "goto",
+                "grant",
+                "group",
+                "group_concat",
+                "having",
+                "hour",
+                "identity",
+                "if",
+                "immediate",
+                "in",
+                "index",
+                "indicator",
+                "initially",
+                "inner",
+                "input",
+                "insensitive",
+                "insert",
+                "int",
+                "integer",
+                "intersect",
+                "into",
+                "is",
+                "isolation",
+                "join",
+                "key",
+                "last",
+                "leading",
+                "left",
+                "like",
+                "lower",
+                "match",
+                "max",
+                "min",
+                "minute",
+                "module",
+                "national",
+                "natural",
+                "nchar",
+                "next",
+                "no",
+                "not",
+                "null",
+                "nullif",
+                "numeric",
+                "octet_length",
+                "of",
+                "on",
+                "only",
+                "open",
+                "option",
+                "or",
+                "order",
+                "outer",
+                "output",
+                "overlaps",
+                "pad",
+                "partial",
+                "partition",
+                "prepare",
+                "preserve",
+                "primary",
+                "prior",
+                "privileges",
+                "procedure",
+                "public",
+                "read",
+                "real",
+                "references",
+                "relative",
+                "restrict",
+                "revoke",
+                "right",
+                "rollback",
+                "rows",
+                "schema",
+                "scroll",
+                "second",
+                "select",
+                "session",
+                "session_user",
+                "set",
+                "smallint",
+                "some",
+                "space",
+                "sql",
+                "sqlcode",
+                "sqlerror",
+                "sqlstate",
+                "substring",
+                "sum",
+                "system_user",
+                "t",
+                "table",
+                "temporary",
+                "timezone_hour",
+                "timezone_minute",
+                "to",
+                "transaction",
+                "translate",
+                "translation",
+                "trailing",
+                "trim",
+                "true",
+                "ts",
+                "union",
+                "unique",
+                "unknown",
+                "update",
+                "upper",
+                "user",
+                "using",
+                "value",
+                "values",
+                "varbinary",
+                "varchar",
+                "varying",
+                "view",
+                "whenever",
+                "where",
+                "window",
+                "with",
+                "work",
+                "write",
+                "year",
+        };
+
+        // From SQLGrammar.jj
+        String[] otherReservedKeywords = {
+                "boolean",
+                "call",
+                "curdate",
+                "current_role",
+                "current_schema",
+                "curtime",
+                "database",
+                "getCurrentConnection",
+                "grouping",
+                "explain",
+                "limit",
+                "long",
+                "ltrim",
+                "none",
+                "over",
+                "returning",
+                "role",
+                "row_number",
+                "rtrim",
+                "sql_cache",
+                "sql_no_cache",
+                "straight_join",
+                "substr",
+                "xml",
+                "xmlexists",
+                "xmlparse",
+                "xmlquery",
+                "xmlserialize",
+                "z_order_lat_lon",
         };
 
         Set<String> result = new HashSet<String>();
 
-        for (String word : reserved) {
+        for (String word : sql92ReservedKeywords) {
+            result.add(word);
+        }
+
+        for (String word : otherReservedKeywords) {
             result.add(word);
         }
 
@@ -1747,10 +1179,10 @@ public class NodeToString
             throws StandardException {
         return node.getName();
     }
-    
+
     protected String aggregateWindowFunctionNode(AggregateWindowFunctionNode node)
             throws StandardException {
-        return toString(node.getAggregateFunction()) + 
+        return toString(node.getAggregateFunction()) +
             " OVER " + toString(node.getWindow());
     }
 
@@ -1760,7 +1192,7 @@ public class NodeToString
             " OVER " + toString(node.getWindow());
     }
 
-    protected String binaryLogicalOperatorNode(BinaryLogicalOperatorNode node) 
+    protected String binaryLogicalOperatorNode(BinaryLogicalOperatorNode node)
             throws StandardException {
         return infixBinary(node);
     }
@@ -1770,12 +1202,12 @@ public class NodeToString
         return infixBinary(node);
     }
 
-    protected String binaryArithmeticOperatorNode(BinaryArithmeticOperatorNode node) 
+    protected String binaryArithmeticOperatorNode(BinaryArithmeticOperatorNode node)
             throws StandardException {
         return infixBinary(node);
     }
 
-    protected String binaryBitOperatorNode(BinaryBitOperatorNode node) 
+    protected String binaryBitOperatorNode(BinaryBitOperatorNode node)
             throws StandardException {
         return infixBinary(node);
     }
@@ -1803,43 +1235,43 @@ public class NodeToString
         return suffixUnary(node);
     }
 
-    protected String unaryArithmeticOperatorNode(UnaryArithmeticOperatorNode node) 
+    protected String unaryArithmeticOperatorNode(UnaryArithmeticOperatorNode node)
             throws StandardException {
         return functionUnary(node);
     }
 
-    protected String unaryPrefixOperatorNode(UnaryArithmeticOperatorNode node) 
+    protected String unaryPrefixOperatorNode(UnaryArithmeticOperatorNode node)
             throws StandardException {
         return prefixUnary(node);
     }
 
-    protected String unaryBitOperatorNode(UnaryBitOperatorNode node) 
+    protected String unaryBitOperatorNode(UnaryBitOperatorNode node)
             throws StandardException {
         return prefixUnary(node);
     }
 
-    protected String extractOperatorNode(ExtractOperatorNode node) 
+    protected String extractOperatorNode(ExtractOperatorNode node)
             throws StandardException {
         return node.getOperator().substring("EXTRACT ".length()).toUpperCase() + "(" +
             toString(node.getOperand()) + ")";
     }
 
-    protected String unaryDateTimestampOperatorNode(UnaryDateTimestampOperatorNode node) 
+    protected String unaryDateTimestampOperatorNode(UnaryDateTimestampOperatorNode node)
             throws StandardException {
         return functionUnary(node);
     }
 
-    protected String timestampOperatorNode(TimestampOperatorNode node) 
+    protected String timestampOperatorNode(TimestampOperatorNode node)
             throws StandardException {
         return functionBinary(node);
     }
 
-    protected String lengthOperatorNode(LengthOperatorNode node) 
+    protected String lengthOperatorNode(LengthOperatorNode node)
             throws StandardException {
         return functionUnary(node);
     }
 
-    protected String octetLengthOperatorNode(OctetLengthOperatorNode node) 
+    protected String octetLengthOperatorNode(OctetLengthOperatorNode node)
             throws StandardException {
         return functionUnary(node);
     }
@@ -1869,7 +1301,7 @@ public class NodeToString
             return node.getAggregateName() + "(" + toString(node.getOperand()) + ")";
     }
 
-    protected String likeEscapeOperatorNode(LikeEscapeOperatorNode node) 
+    protected String likeEscapeOperatorNode(LikeEscapeOperatorNode node)
             throws StandardException {
         String like = maybeParens(node.getReceiver()) +
             " " + node.getOperator().toUpperCase() + " " +
@@ -1957,7 +1389,7 @@ public class NodeToString
 
     protected String inListOperatorNode(InListOperatorNode node) throws StandardException {
         return maybeParens(node.getLeftOperand()) +
-            " " + (node.isNegated() ? "NOT IN" : "IN") + 
+            " " + (node.isNegated() ? "NOT IN" : "IN") +
             " (" + toString(node.getRightOperandList()) + ")";
     }
 
@@ -2009,12 +1441,12 @@ public class NodeToString
         return str.toString();
     }
 
-    protected String coalesceFunctionNode(CoalesceFunctionNode node) 
+    protected String coalesceFunctionNode(CoalesceFunctionNode node)
             throws StandardException {
         return functionCall(node.getFunctionName(),
                                                 node.getArgumentsList());
     }
-    
+
     protected String constantNode(ConstantNode node) throws StandardException {
         Object value = node.getValue();
         if (value == null)
@@ -2030,7 +1462,7 @@ public class NodeToString
         else
             return value.toString();
     }
-    
+
     protected String defaultNode(DefaultNode node) throws StandardException {
         return " DEFAULT "+ node.getDefaultText();
     }
@@ -2055,13 +1487,13 @@ public class NodeToString
             " " + node.getOperator().toUpperCase() + " " +
             maybeParens(node.getRightOperand());
     }
-    
+
     protected String functionBinary(BinaryOperatorNode node) throws StandardException {
         return node.getOperator().toUpperCase() + "(" +
             toString(node.getLeftOperand()) + ", " +
             toString(node.getRightOperand()) + ")";
     }
-    
+
     protected String functionCall(String functionName, ValueNodeList args)
             throws StandardException {
         return functionName + "(" + nodeList(args, true) + ")";
@@ -2109,7 +1541,7 @@ public class NodeToString
         return "$" + (node.getParameterNumber() + 1);
     }
 
-    protected String currentDatetimeOperatorNode(CurrentDatetimeOperatorNode node) 
+    protected String currentDatetimeOperatorNode(CurrentDatetimeOperatorNode node)
             throws StandardException {
         switch (node.getField()) {
         case DATE:
@@ -2124,13 +1556,13 @@ public class NodeToString
     }
 
     protected String castNode(CastNode node) throws StandardException {
-        return "CAST(" + toString(node.getCastOperand()) + 
+        return "CAST(" + toString(node.getCastOperand()) +
             " AS " + node.getType().toString() + ")";
     }
 
-    protected String explicitCollateNode(ExplicitCollateNode node) 
+    protected String explicitCollateNode(ExplicitCollateNode node)
             throws StandardException {
-        return maybeParens(node.getOperand()) + 
+        return maybeParens(node.getOperand()) +
             " COLLATE " + node.getCollation();
     }
 
@@ -2144,7 +1576,7 @@ public class NodeToString
         return "CURRENT VALUE FOR " + toString(node.getSequenceName ());
     }
 
-    protected String javaToSQLValueNode(JavaToSQLValueNode node) 
+    protected String javaToSQLValueNode(JavaToSQLValueNode node)
             throws StandardException {
         return toString(node.getJavaValueNode());
     }
@@ -2192,7 +1624,7 @@ public class NodeToString
         return node.statementToString() + " " + node.getObjectName();
     }
 
-    protected String explainStatementNode(ExplainStatementNode node) 
+    protected String explainStatementNode(ExplainStatementNode node)
             throws StandardException {
         String detail;
         switch (node.getDetail()) {
@@ -2214,12 +1646,12 @@ public class NodeToString
             throws StandardException {
         return node.statementToString();
     }
-    
+
     protected String setTransactionIsolationNode(SetTransactionIsolationNode node)
             throws StandardException {
         return node.statementToString() + " " + node.getIsolationLevel().getSyntax();
     }
-    
+
     protected String setTransactionAccessNode(SetTransactionAccessNode node)
             throws StandardException {
         return node.statementToString() + " " + node.getAccessMode().getSyntax();
@@ -2258,7 +1690,7 @@ public class NodeToString
     protected String rowCtorNode(RowConstructorNode row) throws StandardException
     {
         ValueNodeList list = row.getNodeList();
-        
+
         switch(list.size())
         {
             case 0:
@@ -2268,7 +1700,7 @@ public class NodeToString
                 if (!(node instanceof RowConstructorNode))
                     return toString(node);
         }
-        
+
         StringBuilder bd = new StringBuilder();
         for (QueryTreeNode node : list )
         {
@@ -2278,8 +1710,8 @@ public class NodeToString
 
         return bd.substring(0, bd.length() -2); // delete the last (<COMMA> <SPACE>)
     }
-    
-    protected String declareStatementNode(DeclareStatementNode node) 
+
+    protected String declareStatementNode(DeclareStatementNode node)
             throws StandardException {
         return "DECLARE " + node.getName() + " CURSOR FOR " +
             toString(node.getStatement());
@@ -2287,7 +1719,7 @@ public class NodeToString
 
     protected String fetchStatementNode(FetchStatementNode node)
             throws StandardException {
-        return "FETCH " + 
+        return "FETCH " +
             ((node.getCount() < 0) ? "ALL" : Integer.toString(node.getCount())) +
             " FROM " + node.getName();
     }
@@ -2305,7 +1737,7 @@ public class NodeToString
 
     protected String executeStatementNode(ExecuteStatementNode node)
             throws StandardException {
-        return "EXECUTE " + node.getName() + 
+        return "EXECUTE " + node.getName() +
             "(" + nodeList(node.getParameterList(), true) + ")";
     }
 
@@ -2313,8 +1745,8 @@ public class NodeToString
             throws StandardException {
         return "DEALLOCATE " + node.getName();
     }
-     
-    protected String copyStatementNode(CopyStatementNode node) 
+
+    protected String copyStatementNode(CopyStatementNode node)
             throws StandardException {
         StringBuilder str = new StringBuilder("COPY ");
         if (node.getSubquery() != null) {
@@ -2343,7 +1775,7 @@ public class NodeToString
             str.append("'");
             str.append(node.getFilename());
             str.append("'");
-        } 
+        }
         else if (node.getMode() == CopyStatementNode.Mode.TO_TABLE) {
             str.append("STDIN");
         }
@@ -2408,17 +1840,17 @@ public class NodeToString
         else
             bd.append(toString(node));
     }
-    
+
     protected String groupConcat(GroupConcatNode node) throws StandardException
     {
         StringBuilder ret = new StringBuilder("GROUP_CONCAT(");
-        
+
         ret.append(node.getOperand());
-        
+
         OrderByList orderBy = node.getOrderBy();
         if (orderBy != null)
             ret.append(this.toString(orderBy));
-        
+
         // i
         ret.append("SEPARATOR \'").append(node.getSeparator()).append("\')");
         return ret.toString();
