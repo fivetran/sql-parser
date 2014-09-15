@@ -835,12 +835,12 @@ public class NodeToString
 
     /** Quote a column name if it contains $ */
     private String maybeQuote(String identifier) {
-        // If identifier matches IDENTIFIER from SQLGrammer.jj, no need for quotes
+        // If identifier is lowercase and matches IDENTIFIER from SQLGrammer.jj, no need for quotes
         // TODO IDENTIFIER has some unicode characters, need to either
         // TODO use the generated grammar or write a really long regex
         if (identifier == null)
             return null;
-        else if (identifier.matches("[a-zA-Z_][a-zA-Z0-9_$]*") && !isReserved(identifier))
+        else if (identifier.matches("[a-z_][a-z0-9_$]*") && !isReserved(identifier))
             return identifier;
         else
             return '"' + identifier + '"';
