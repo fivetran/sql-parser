@@ -834,7 +834,7 @@ public class NodeToString
     }
 
     /** Quote a column name if it contains $ */
-    private String maybeQuote(String identifier) {
+    protected String maybeQuote(String identifier) {
         // If identifier is lowercase and matches IDENTIFIER from SQLGrammer.jj, no need for quotes
         // TODO IDENTIFIER has some unicode characters, need to either
         // TODO use the generated grammar or write a really long regex
