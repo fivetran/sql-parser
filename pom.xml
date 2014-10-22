@@ -66,9 +66,25 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Teach maven how to use S3 as a private repo -->
+        <dependency>
+            <groupId>org.springframework.build</groupId>
+            <artifactId>aws-maven</artifactId>
+            <version>5.0.0.RELEASE</version>
+        </dependency>
     </dependencies>
     
     <build>
+        <extensions>
+            <!-- Teach maven how to use S3 as a private repo -->
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
+
         <plugins>
             <!-- Compile for Java 6 -->
             <plugin>
@@ -181,4 +197,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- Publish to s3 -->
+    <distributionManagement>
+        <repository>
+            <id>aws-release</id>
+            <name>AWS Release Repository</name>
+            <url>s3://fivetran-maven/release</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>aws-snapshot</id>
+            <name>AWS Snapshot Repository</name>
+            <url>s3://fivetran-maven/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
