@@ -6,7 +6,7 @@
 
     <groupId>com.fivetran</groupId>
     <artifactId>fdb-sql-parser</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>FoundationDB SQL Parser</name>
@@ -69,15 +69,6 @@
     </dependencies>
     
     <build>
-        <extensions>
-            <!-- Teach maven how to use S3 as a private repo -->
-            <extension>
-                <groupId>org.springframework.build</groupId>
-                <artifactId>aws-maven</artifactId>
-                <version>5.0.0.RELEASE</version>
-            </extension>
-        </extensions>
-
         <plugins>
             <!-- Compile for Java 6 -->
             <plugin>
