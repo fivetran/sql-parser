@@ -6,7 +6,7 @@
 
     <groupId>com.fivetran</groupId>
     <artifactId>fdb-sql-parser</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>FoundationDB SQL Parser</name>
@@ -145,8 +145,8 @@
                     <headerSections>
                         <headerSection>
                             <key>__YEAR_SECTION__</key>
-                            <defaultValue>2013</defaultValue>
-                            <ensureMatch>20(11|12|13)\-2013|2013</ensureMatch>
+                            <defaultValue>2014</defaultValue>
+                            <ensureMatch>20(11|12|13|14)\-20(13|14)|20(13|14)</ensureMatch>
                         </headerSection>
                     </headerSections>
                     <strictCheck>true</strictCheck>

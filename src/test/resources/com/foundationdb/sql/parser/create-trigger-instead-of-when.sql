@@ -1,0 +1,1 @@
+CREATE TRIGGER dt_abs INSTEAD OF UPDATE ON dt FOR EACH ROW WHEN (NEW.val < 0) UPDATE dt SET val=abs(New.val) WHERE id=NEW.id

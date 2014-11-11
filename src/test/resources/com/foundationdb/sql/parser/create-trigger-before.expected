@@ -1,0 +1,66 @@
+com.foundationdb.sql.parser.CreateTriggerNode@51de0b09
+name: dt_ins
+statementType: CREATE TRIGGER
+tableName: dt
+event: Insert
+time: Before
+isRow: true
+isEnabled: true
+refClause: null
+actionText: UPDATE dt SET col2='ins' WHERE id = NEW.id
+triggerColumns: 	
+	com.foundationdb.sql.parser.ResultColumnList@4deb033c
+
+actionNodes: 	
+	com.foundationdb.sql.parser.UpdateNode@21801b
+	statementType: UPDATE
+	resultSet: 		
+		com.foundationdb.sql.parser.SelectNode@17616cae
+		isDistinct: false
+		resultColumns: 			
+			com.foundationdb.sql.parser.ResultColumnList@7d261f7f
+
+			[0]:			
+			com.foundationdb.sql.parser.ResultColumn@51de0b09
+			exposedName: col2
+			name: col2
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.CharConstantNode@48a6a5dc
+				value: ins
+				type: CHAR(3) NOT NULL
+			reference: 				
+				com.foundationdb.sql.parser.ColumnReference@34d333c7
+				columnName: col2
+				tableName: null
+				type: null
+		fromList: 			
+			com.foundationdb.sql.parser.FromList@15ec68e9
+
+			[0]:			
+			com.foundationdb.sql.parser.FromBaseTable@53dba43d
+			tableName: dt
+			updateOrDelete: UPDATE
+			null
+			correlation Name: null
+			null
+		whereClause: 			
+			com.foundationdb.sql.parser.BinaryRelationalOperatorNode@78fbcbcd
+			operator: =
+			methodName: equals
+			type: null
+			leftOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@5b013dc8
+				columnName: id
+				tableName: null
+				type: null
+			rightOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@2e7f4425
+				columnName: id
+				tableName: new
+				type: null
+	targetTableName: 		
+		com.foundationdb.sql.parser.TableName@c90
+		dt

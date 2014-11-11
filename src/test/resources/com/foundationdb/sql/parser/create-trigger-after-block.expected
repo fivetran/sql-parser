@@ -1,0 +1,117 @@
+com.foundationdb.sql.parser.CreateTriggerNode@2faa819
+name: dt_ins
+statementType: CREATE TRIGGER
+tableName: dt
+event: Update
+time: After
+isRow: true
+isEnabled: true
+refClause: null
+actionText: BEGIN ATOMIC INSERT INTO log VALUES (NEW.id, now(), OLD.val); UPDATE dt SET updated=true WHERE id=NEW.id; END
+triggerColumns: 	
+	com.foundationdb.sql.parser.ResultColumnList@163202d6
+
+actionNodes: 	
+	com.foundationdb.sql.parser.InsertNode@2d583afc
+	statementType: INSERT
+	resultSet: 		
+		com.foundationdb.sql.parser.RowResultSetNode@7b888da5
+		correlation Name: null
+		null
+		resultColumns: 			
+			com.foundationdb.sql.parser.ResultColumnList@420b8aff
+
+			[0]:			
+			com.foundationdb.sql.parser.ResultColumn@3d28d39
+			exposedName: null
+			name: null
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.ColumnReference@74359b24
+				columnName: id
+				tableName: new
+				type: null
+			[1]:			
+			com.foundationdb.sql.parser.ResultColumn@6b5c9416
+			exposedName: null
+			name: null
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.JavaToSQLValueNode@afe676b
+				type: null
+				javaNode: 					
+					com.foundationdb.sql.parser.StaticMethodCallNode@4437a770
+					javaClassName: null
+					methodName: now
+			[2]:			
+			com.foundationdb.sql.parser.ResultColumn@21d1cd0d
+			exposedName: null
+			name: null
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.ColumnReference@54ed21d3
+				columnName: val
+				tableName: old
+				type: null
+	targetTableName: 		
+		com.foundationdb.sql.parser.TableName@1a344
+		log
+	
+	com.foundationdb.sql.parser.UpdateNode@1c47cf34
+	statementType: UPDATE
+	resultSet: 		
+		com.foundationdb.sql.parser.SelectNode@2e746d6d
+		isDistinct: false
+		resultColumns: 			
+			com.foundationdb.sql.parser.ResultColumnList@5dbc26ee
+
+			[0]:			
+			com.foundationdb.sql.parser.ResultColumn@6ba00355
+			exposedName: updated
+			name: updated
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.BooleanConstantNode@563af8a6
+				value: true
+				type: BOOLEAN NOT NULL
+			reference: 				
+				com.foundationdb.sql.parser.ColumnReference@399a8684
+				columnName: updated
+				tableName: null
+				type: null
+		fromList: 			
+			com.foundationdb.sql.parser.FromList@4ff561a7
+
+			[0]:			
+			com.foundationdb.sql.parser.FromBaseTable@76de43f3
+			tableName: dt
+			updateOrDelete: UPDATE
+			null
+			correlation Name: null
+			null
+		whereClause: 			
+			com.foundationdb.sql.parser.BinaryRelationalOperatorNode@7a3f437c
+			operator: =
+			methodName: equals
+			type: null
+			leftOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@4f67c097
+				columnName: id
+				tableName: null
+				type: null
+			rightOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@2495223b
+				columnName: id
+				tableName: new
+				type: null
+	targetTableName: 		
+		com.foundationdb.sql.parser.TableName@c90
+		dt

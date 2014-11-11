@@ -1,0 +1,86 @@
+com.foundationdb.sql.parser.CreateTriggerNode@3a33517f
+name: dt_abs
+statementType: CREATE TRIGGER
+tableName: dt
+event: Update
+time: InsteadOf
+isRow: true
+isEnabled: true
+refClause: null
+actionText: UPDATE dt SET val=abs(New.val) WHERE id=NEW.id
+triggerColumns: 	
+	com.foundationdb.sql.parser.ResultColumnList@7f2b86b2
+
+whenClause: 	
+	com.foundationdb.sql.parser.BinaryRelationalOperatorNode@2985158
+	operator: <
+	methodName: lessThan
+	type: null
+	leftOperand: 		
+		com.foundationdb.sql.parser.ColumnReference@5e0469bc
+		columnName: val
+		tableName: new
+		type: null
+	rightOperand: 		
+		com.foundationdb.sql.parser.NumericConstantNode@73b9e5dc
+		value: 0
+		type: INTEGER NOT NULL
+actionNodes: 	
+	com.foundationdb.sql.parser.UpdateNode@31a209df
+	statementType: UPDATE
+	resultSet: 		
+		com.foundationdb.sql.parser.SelectNode@53628ee
+		isDistinct: false
+		resultColumns: 			
+			com.foundationdb.sql.parser.ResultColumnList@26b923ee
+
+			[0]:			
+			com.foundationdb.sql.parser.ResultColumn@44e5f21e
+			exposedName: val
+			name: val
+			tableName: null
+			isDefaultColumn: false
+			type: null
+			expression: 				
+				com.foundationdb.sql.parser.UnaryArithmeticOperatorNode@547ab2e8
+				operator: ABS
+				methodName: absolute
+				type: null
+				operand: 					
+					com.foundationdb.sql.parser.ColumnReference@4377c8ac
+					columnName: val
+					tableName: new
+					type: null
+			reference: 				
+				com.foundationdb.sql.parser.ColumnReference@6d17b6ce
+				columnName: val
+				tableName: null
+				type: null
+		fromList: 			
+			com.foundationdb.sql.parser.FromList@2fe2c656
+
+			[0]:			
+			com.foundationdb.sql.parser.FromBaseTable@514b50a9
+			tableName: dt
+			updateOrDelete: UPDATE
+			null
+			correlation Name: null
+			null
+		whereClause: 			
+			com.foundationdb.sql.parser.BinaryRelationalOperatorNode@279cb0f1
+			operator: =
+			methodName: equals
+			type: null
+			leftOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@2024b288
+				columnName: id
+				tableName: null
+				type: null
+			rightOperand: 				
+				com.foundationdb.sql.parser.ColumnReference@49450f34
+				columnName: id
+				tableName: new
+				type: null
+	targetTableName: 		
+		com.foundationdb.sql.parser.TableName@c90
+		dt
