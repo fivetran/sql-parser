@@ -3,13 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
-    
-    <!-- Required for deploying to Sonatype -->
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
 
     <groupId>com.fivetran</groupId>
     <artifactId>fdb-sql-parser</artifactId>
@@ -196,6 +189,15 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <extensions>
+            <!-- Teach maven how to use S3 as a private repo -->
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
     </build>
 
     <!-- Publish to s3 -->
