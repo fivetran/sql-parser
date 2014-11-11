@@ -1,0 +1,54 @@
+com.foundationdb.sql.parser.CursorNode@61dd025
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@124c278f
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@15b204a1
+
+		[0]:		
+		com.foundationdb.sql.parser.ResultColumn@77167fb7
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.AggregateNode@1fe20588
+			aggregateName: VAR_SAMP
+			operator: null
+			methodName: null
+			type: null
+			operand: 				
+				com.foundationdb.sql.parser.ColumnReference@6ce139a4
+				columnName: a
+				tableName: null
+				type: null
+		[1]:		
+		com.foundationdb.sql.parser.ResultColumn@6973bf95
+		exposedName: b
+		name: b
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.ColumnReference@2ddc8ecb
+			columnName: b
+			tableName: null
+			type: null
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@229d10bd
+
+	groupByList:		
+		com.foundationdb.sql.parser.GroupByList@47542153
+
+		[0]:		
+		com.foundationdb.sql.parser.GroupByColumn@33afa13b
+		columnPosition: -1
+		columnExpression: 			
+			com.foundationdb.sql.parser.ColumnReference@7a4ccb53
+			columnName: b
+			tableName: null
+			type: null
