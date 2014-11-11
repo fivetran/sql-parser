@@ -11,7 +11,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>com.foundationdb</groupId>
+    <groupId>com.fivetran</groupId>
     <artifactId>fdb-sql-parser</artifactId>
     <version>1.4.1-SNAPSHOT</version>
     <packaging>jar</packaging>
