@@ -447,6 +447,12 @@ class SQLGrammar
         case AVG:
         case MIN:
         case SUM:
+        case BOOL_AND:
+        case BOOL_OR:
+        case STDDEV_SAMP:
+        case STDDEV_POP:
+        case VAR_SAMP:
+        case VAR_POP:
         case GROUP_CONCAT:
             // This is a built-in aggregate
             retval = true;
@@ -1363,6 +1369,30 @@ class SQLGrammar
             retval = "SUM";
             break;
 
+        case BOOL_AND:
+            retval = "BOOL_AND";
+            break;
+
+        case BOOL_OR:
+            retval = "BOOL_OR";
+            break;
+
+        case STDDEV_SAMP:
+            retval = "STDDEV_SAMP";
+            break;
+
+        case STDDEV_POP:
+            retval = "STDDEV_POP";
+            break;
+
+        case VAR_SAMP:
+            retval = "VAR_SAMP";
+            break;
+
+        case VAR_POP:
+            retval = "VAR_POP";
+            break;
+
         case COUNT:
             retval = "COUNT";
             break;
@@ -1398,6 +1428,15 @@ class SQLGrammar
 
         case COUNT:
             retval = "CountAggregateDefinition";
+            break;
+
+        case BOOL_AND:
+        case BOOL_OR:
+        case STDDEV_SAMP:
+        case STDDEV_POP:
+        case VAR_SAMP:
+        case VAR_POP:
+            retval = "TODO";
             break;
 
         case GROUP_CONCAT:
@@ -2349,6 +2388,12 @@ TOKEN [IGNORE_CASE] :
 | <SQLSTATE: "sqlstate">
 | <SUBSTRING: "substring">
 | <SUM: "sum">
+| <BOOL_AND: "bool_and">
+| <BOOL_OR: "bool_or">
+| <STDDEV_SAMP: "stddev_samp">
+| <STDDEV_POP: "stddev_pop">
+| <VAR_SAMP: "var_samp">
+| <VAR_POP: "var_pop">
 | <SYSTEM_USER: "system_user">
 | <T: "t">
 | <TABLE: "table">
@@ -9961,7 +10006,13 @@ builtInAggregateType() throws StandardException :
         retval = <MAX> |
         retval = <AVG> |
         retval = <MIN> |
-        retval = <SUM>
+        retval = <SUM> |
+        retval = <BOOL_AND> |
+        retval = <BOOL_OR> |
+        retval = <STDDEV_SAMP> |
+        retval = <STDDEV_POP> |
+        retval = <VAR_SAMP> |
+        retval = <VAR_POP>
     )
     {
         return retval;
