@@ -1,1 +1,1 @@
-SELECT "$a" FROM "t"
+SELECT "$a" FROM t
