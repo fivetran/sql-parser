@@ -1,1 +1,1 @@
-SELECT * FROM t WHERE NOT (a < 100 OR a > 200)
+SELECT * FROM "t" WHERE NOT (a < 100 OR a > 200)

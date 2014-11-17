@@ -7,7 +7,7 @@ SELECT abs(- n), ~n,
   substring(s, 10), substring(s, 10, 3),
   ltrim(s), trim(trailing '!' from s),
   s||s collate en_us_ci,
-  month(d), timestamp(d, '13:01:01'), timestampdiff(day, d, current_timestamp),
+  month("d"), timestamp("d", '13:01:01'), timestampdiff(day, "d", current_timestamp),
   next value for seq, current value for seq
-FROM t
+FROM "t"
   

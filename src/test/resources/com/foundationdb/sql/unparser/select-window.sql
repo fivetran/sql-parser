@@ -1,0 +1,1 @@
+SELECT "window".a FROM "window"

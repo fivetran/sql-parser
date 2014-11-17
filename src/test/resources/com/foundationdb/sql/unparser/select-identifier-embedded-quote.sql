@@ -1,1 +1,1 @@
-SELECT "foo""bar" FROM t
+SELECT "foo""bar" FROM "t"

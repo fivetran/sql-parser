@@ -1,1 +1,1 @@
-UPDATE t SET x = null, y = y + 1 WHERE x <= 4
+UPDATE "t" SET x = null, y = y + 1 WHERE x <= 4

@@ -1,1 +1,1 @@
-SELECT * FROM t WHERE (d OR e) OR ((a AND b) AND c)
+SELECT * FROM "t" WHERE ("d" OR e) OR ((a AND b) AND c)

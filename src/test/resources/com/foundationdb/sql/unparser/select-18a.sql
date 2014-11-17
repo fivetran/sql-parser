@@ -1,1 +1,1 @@
-select * from t offset 10
+select * from "t" offset 10

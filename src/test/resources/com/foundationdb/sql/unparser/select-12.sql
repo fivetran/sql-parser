@@ -1,1 +1,1 @@
-SELECT F1(f2(a),b) FROM t
+SELECT F1(f2(a),b) FROM "t"

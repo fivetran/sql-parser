@@ -1,1 +1,1 @@
-select t.* from t
+select "t".* from "t"
