@@ -227,6 +227,13 @@ public class ResultColumn extends ValueNode
         return exposedName;
     }
 
+    /**
+     * @param name Name exposed by AS clause
+     */
+    public void setExposedName(String name) {
+        this.exposedName = name;
+    }
+
     public String getSchemaName() throws StandardException {
         if (expression != null)
             return expression.getSchemaName();
