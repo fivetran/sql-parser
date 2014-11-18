@@ -5255,21 +5255,27 @@ ValueNode
 typedValueExpression() throws StandardException :
 {
     ValueNode value;
-    DataTypeDescriptor type = null;
 }
 {
     value = valueExpression()
-    [ <PG_TYPECAST> type = dataTypeCast() ]
+    ( <PG_TYPECAST> value = pgTypeCast(value) )*
     {
-        if (type == null) {
-            return value;
-        }
-        else {
-            return (ValueNode)nodeFactory.getNode(NodeTypes.CAST_NODE,
-                                                  value,
-                                                  type,
-                                                  parserContext);
-        }
+        return value;
+    }
+}
+
+ValueNode
+pgTypeCast(ValueNode value) throws StandardException:
+{
+    DataTypeDescriptor type = null;
+}
+{
+    type = dataTypeCast()
+    {
+        return (ValueNode)nodeFactory.getNode(NodeTypes.CAST_NODE,
+                                              value,
+                                              type,
+                                              parserContext);
     }
 }
 

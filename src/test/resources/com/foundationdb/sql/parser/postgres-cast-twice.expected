@@ -1,0 +1,40 @@
+com.foundationdb.sql.parser.CursorNode@1d296da
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@7c7a06ec
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@75d4a5c2
+
+		[0]:		
+		com.foundationdb.sql.parser.ResultColumn@557caf28
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.CastNode@408d971b
+			castTarget: REAL
+			type: REAL
+			castOperand: 				
+				com.foundationdb.sql.parser.CastNode@6c6cb480
+				castTarget: INTEGER
+				type: INTEGER
+				castOperand: 					
+					com.foundationdb.sql.parser.ColumnReference@3c46e67a
+					columnName: booleans
+					tableName: null
+					type: null
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@c730b35
+
+		[0]:		
+		com.foundationdb.sql.parser.FromBaseTable@206a70ef
+		tableName: example
+		updateOrDelete: null
+		null
+		correlation Name: null
+		null
