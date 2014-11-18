@@ -5223,7 +5223,7 @@ derivedColumn(ResultColumnList resultColumns) throws StandardException :
     String columnName = null;
 }
 {
-    columnExpression = valueExpression()
+    columnExpression = typedValueExpression()
     [ columnName = asClause() ]
     { 
         /* If there is no AS clause, and the expression is a simple
