@@ -2671,7 +2671,8 @@ TOKEN :
 
 TOKEN :
 { /* Postgres-style parameters */
- <DOLLAR_N: ( "$" (<DIGIT>)+ ) >
+  <DOLLAR_N: ( "$" (<DIGIT>)+ ) >
+| <PG_TYPECAST: "::">
 }
 
 TOKEN : 
@@ -5247,6 +5248,28 @@ asClause() throws StandardException :
     [ <AS> ] columnName = identifier()
     {
         return columnName;
+    }
+}
+
+ValueNode
+typedValueExpression() throws StandardException :
+{
+    ValueNode value;
+    DataTypeDescriptor type = null;
+}
+{
+    value = valueExpression()
+    [ <PG_TYPECAST> type = dataTypeCast() ]
+    {
+        if (type == null) {
+            return value;
+        }
+        else {
+            return (ValueNode)nodeFactory.getNode(NodeTypes.CAST_NODE,
+                                                  value,
+                                                  type,
+                                                  parserContext);
+        }
     }
 }
 
