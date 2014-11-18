@@ -1582,6 +1582,8 @@ public class TypeId
      *
      *                                          VARCHAR(30)
      *
+     * unless length/precision is maximum or 0, in which case it will be suppressed.
+     *
      *
      *          For most data types, we just return the SQL type name.
      *
@@ -1597,16 +1599,26 @@ public class TypeId
         switch (formatId) {
         case FormatIds.BIT_TYPE_ID:
         case FormatIds.VARBIT_TYPE_ID:
-            int rparen = retval.indexOf(')');
-            String lead = retval.substring(0, rparen);
-            retval = lead + dts.getMaximumWidth() + retval.substring(rparen);
+            // Only print the width if it isn't the maximum maximum width
+            // Different DBs have different maximum maximum widths so we shouldn't rely on sql-parser's
+            // assumptions when generating a parseable string
+            if (dts.getMaximumWidth() != this.getMaximumMaximumWidth()) {
+                int rparen = retval.indexOf(')');
+                String lead = retval.substring(0, rparen);
+                retval = lead + dts.getMaximumWidth() + retval.substring(rparen);
+            }
             break;
 
         case FormatIds.CHAR_TYPE_ID:
         case FormatIds.VARCHAR_TYPE_ID:
         case FormatIds.BLOB_TYPE_ID:
         case FormatIds.CLOB_TYPE_ID:
-            retval += "(" + dts.getMaximumWidth() + ")";
+            // Only print the width if it isn't the maximum maximum width
+            // Different DBs have different maximum maximum widths so we shouldn't rely on sql-parser's
+            // assumptions when generating a parseable string
+            if (dts.getMaximumWidth() != this.getMaximumMaximumWidth()) {
+                retval += "(" + dts.getMaximumWidth() + ")";
+            }
             break;
 
         case FormatIds.DECIMAL_TYPE_ID:
