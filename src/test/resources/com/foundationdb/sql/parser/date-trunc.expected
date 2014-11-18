@@ -1,0 +1,49 @@
+com.foundationdb.sql.parser.CursorNode@105fece7
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@3ec300f1
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@482cd91f
+
+		[0]:		
+		com.foundationdb.sql.parser.ResultColumn@123f1134
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.JavaToSQLValueNode@7d68ef40
+			type: null
+			javaNode: 				
+				com.foundationdb.sql.parser.StaticMethodCallNode@5b0abc94
+				javaClassName: null
+				methodName: date_trunc
+				methodParms[0] :					
+					com.foundationdb.sql.parser.SQLToJavaValueNode@75c072cb
+
+					value: 						
+						com.foundationdb.sql.parser.CharConstantNode@1f1c7bf6
+						value: day
+						type: CHAR(3) NOT NULL
+				methodParms[1] :					
+					com.foundationdb.sql.parser.SQLToJavaValueNode@25b485ba
+
+					value: 						
+						com.foundationdb.sql.parser.ColumnReference@2b546384
+						columnName: d
+						tableName: null
+						type: null
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@5d740a0f
+
+		[0]:		
+		com.foundationdb.sql.parser.FromBaseTable@214b199c
+		tableName: t
+		updateOrDelete: null
+		null
+		correlation Name: null
+		null
