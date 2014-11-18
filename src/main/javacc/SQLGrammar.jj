@@ -5887,7 +5887,7 @@ methodParameter(List<ValueNode> parameterList) throws StandardException :
     ValueNode parameter;
 }
 {
-    parameter = valueExpression()
+    parameter = typedValueExpression()
     {
         parameterList.add(parameter);
     }
@@ -6573,7 +6573,7 @@ valueExpressionPrimary() throws StandardException :
         LOOKAHEAD( { getToken(1).kind == SELECT || getToken(1).kind == VALUES } )
         value = subquery(SubqueryNode.SubqueryType.EXPRESSION, null)
     |
-        value = valueExpression()
+        value = typedValueExpression()
     )
     <RIGHT_PAREN>
     {
@@ -9025,7 +9025,7 @@ joinCondition() throws StandardException :
     ValueNode joinClause;
 }
 {
-    <ON> joinClause = valueExpression()
+    <ON> joinClause = typedValueExpression()
     {
         return joinClause;
     }
@@ -9554,7 +9554,7 @@ whereClause(Token beginToken) throws StandardException :
     Token endToken;
 }
 {
-    value = valueExpression()
+    value = typedValueExpression()
     {
         endToken = getToken(0);
 
@@ -9632,7 +9632,7 @@ havingClause() throws StandardException :
     ValueNode value;
 }
 {
-    <HAVING> value = valueExpression()
+    <HAVING> value = typedValueExpression()
     {
         return value;
     }
@@ -10687,7 +10687,7 @@ triggerDefinition() throws StandardException :
     <ON> tableName = qualifiedName()
     [ refClause = triggerReferencingClause() ]
     [ <FOR> <EACH> isRow = rowOrStatement() ]
-    [ <WHEN> <LEFT_PAREN> whenClause = valueExpression() <RIGHT_PAREN> ]
+    [ <WHEN> <LEFT_PAREN> whenClause = typedValueExpression() <RIGHT_PAREN> ]
     actionNodes = triggerActionNodes(tokenHolder)
     {
         actionEnd = getToken(0).endOffset;
@@ -10979,7 +10979,7 @@ generationClause() throws StandardException :
 }
 {
     <AS> beginToken = <LEFT_PAREN> 
-    value = valueExpression() 
+    value = typedValueExpression()
     endToken = <RIGHT_PAREN>
     {
         return (ValueNode)nodeFactory.getNode(NodeTypes.GENERATION_CLAUSE_NODE,
@@ -11313,7 +11313,7 @@ intervalLiteral() throws StandardException :
     int[] factors = new int[] { 1, 1 };
 }
 {
-    <INTERVAL> value = valueExpression() 
+    <INTERVAL> value = typedValueExpression()
     (
         intervalType = intervalQualifier()
     |
@@ -11579,7 +11579,7 @@ checkConstraintDefinition(TableName constraintName, String columnName)
 }
 {
     <CHECK> beginToken = <LEFT_PAREN> 
-    value = valueExpression() 
+    value = typedValueExpression()
     endToken = <RIGHT_PAREN>
     {
         if (columnName != null) {
