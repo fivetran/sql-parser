@@ -100,6 +100,15 @@ public class AggregateNode extends UnaryOperatorNode
     }
 
     /**
+     * Set the name of the aggregate
+     *
+     * @param name SQL name of aggregation function, for example SUM or AVG
+     */
+    public void setAggregateName(String name) {
+        this.aggregateName = name;
+    }
+
+    /**
      * Indicate whether this aggregate is distinct or not.
      *
      * @return true/false
