@@ -1,0 +1,45 @@
+com.foundationdb.sql.parser.CursorNode@40a4337a
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@6025e1b6
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@22ff4249
+
+		[0]:		
+		com.foundationdb.sql.parser.ResultColumn@2d1ef81a
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.ConcatenationOperatorNode@4c402120
+			operator: ||
+			methodName: concatenate
+			type: null
+			leftOperand: 				
+				com.foundationdb.sql.parser.CastNode@327514f
+				castTarget: TEXT
+				type: TEXT
+				castOperand: 					
+					com.foundationdb.sql.parser.ColumnReference@5b12b668
+					columnName: foo
+					tableName: null
+					type: null
+			rightOperand: 				
+				com.foundationdb.sql.parser.CharConstantNode@1165b38
+				value: bar
+				type: CHAR(3) NOT NULL
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@4c12331b
+
+		[0]:		
+		com.foundationdb.sql.parser.FromBaseTable@7586beff
+		tableName: example
+		updateOrDelete: null
+		null
+		correlation Name: null
+		null

@@ -5224,7 +5224,7 @@ derivedColumn(ResultColumnList resultColumns) throws StandardException :
     String columnName = null;
 }
 {
-    columnExpression = typedValueExpression()
+    columnExpression = valueExpression()
     [ columnName = asClause() ]
     { 
         /* If there is no AS clause, and the expression is a simple
@@ -5249,34 +5249,6 @@ asClause() throws StandardException :
     [ <AS> ] columnName = identifier()
     {
         return columnName;
-    }
-}
-
-ValueNode
-typedValueExpression() throws StandardException :
-{
-    ValueNode value;
-}
-{
-    value = valueExpression()
-    ( <PG_TYPECAST> value = pgTypeCast(value) )*
-    {
-        return value;
-    }
-}
-
-ValueNode
-pgTypeCast(ValueNode value) throws StandardException:
-{
-    DataTypeDescriptor type = null;
-}
-{
-    type = dataTypeCast()
-    {
-        return (ValueNode)nodeFactory.getNode(NodeTypes.CAST_NODE,
-                                              value,
-                                              type,
-                                              parserContext);
     }
 }
 
@@ -5894,7 +5866,7 @@ methodParameter(List<ValueNode> parameterList) throws StandardException :
     ValueNode parameter;
 }
 {
-    parameter = typedValueExpression()
+    parameter = valueExpression()
     {
         parameterList.add(parameter);
     }
@@ -5906,7 +5878,7 @@ primary() throws StandardException :
     ValueNode value;
 }
 {
-    value = valueExpressionPrimary()
+    value = typedValueExpressionPrimary()
     {
         return value;
     }
@@ -6512,6 +6484,34 @@ trimType() :
 }
 
 ValueNode
+typedValueExpressionPrimary() throws StandardException :
+{
+    ValueNode value;
+}
+{
+    value = valueExpressionPrimary()
+    ( <PG_TYPECAST> value = pgTypeCast(value) )*
+    {
+        return value;
+    }
+}
+
+ValueNode
+pgTypeCast(ValueNode value) throws StandardException:
+{
+    DataTypeDescriptor type = null;
+}
+{
+    type = dataTypeCast()
+    {
+        return (ValueNode)nodeFactory.getNode(NodeTypes.CAST_NODE,
+                                              value,
+                                              type,
+                                              parserContext);
+    }
+}
+
+ValueNode
 valueExpressionPrimary() throws StandardException :
 {
     ValueNode value;
@@ -6580,7 +6580,7 @@ valueExpressionPrimary() throws StandardException :
         LOOKAHEAD( { getToken(1).kind == SELECT || getToken(1).kind == VALUES } )
         value = subquery(SubqueryNode.SubqueryType.EXPRESSION, null)
     |
-        value = typedValueExpression()
+        value = valueExpression()
     )
     <RIGHT_PAREN>
     {
@@ -9032,7 +9032,7 @@ joinCondition() throws StandardException :
     ValueNode joinClause;
 }
 {
-    <ON> joinClause = typedValueExpression()
+    <ON> joinClause = valueExpression()
     {
         return joinClause;
     }
@@ -9373,7 +9373,7 @@ aggregateExpression(String aggName, String aggClass) throws StandardException :
 }
 {
     [ distinct = setQuantifier() ] 
-    value = typedValueExpression()
+    value = valueExpression()
     {
         return (ValueNode)nodeFactory.getNode(NodeTypes.AGGREGATE_NODE,
                                               value,
@@ -9561,7 +9561,7 @@ whereClause(Token beginToken) throws StandardException :
     Token endToken;
 }
 {
-    value = typedValueExpression()
+    value = valueExpression()
     {
         endToken = getToken(0);
 
@@ -9639,7 +9639,7 @@ havingClause() throws StandardException :
     ValueNode value;
 }
 {
-    <HAVING> value = typedValueExpression()
+    <HAVING> value = valueExpression()
     {
         return value;
     }
@@ -10694,7 +10694,7 @@ triggerDefinition() throws StandardException :
     <ON> tableName = qualifiedName()
     [ refClause = triggerReferencingClause() ]
     [ <FOR> <EACH> isRow = rowOrStatement() ]
-    [ <WHEN> <LEFT_PAREN> whenClause = typedValueExpression() <RIGHT_PAREN> ]
+    [ <WHEN> <LEFT_PAREN> whenClause = valueExpression() <RIGHT_PAREN> ]
     actionNodes = triggerActionNodes(tokenHolder)
     {
         actionEnd = getToken(0).endOffset;
@@ -10986,7 +10986,7 @@ generationClause() throws StandardException :
 }
 {
     <AS> beginToken = <LEFT_PAREN> 
-    value = typedValueExpression()
+    value = valueExpression()
     endToken = <RIGHT_PAREN>
     {
         return (ValueNode)nodeFactory.getNode(NodeTypes.GENERATION_CLAUSE_NODE,
@@ -11320,7 +11320,7 @@ intervalLiteral() throws StandardException :
     int[] factors = new int[] { 1, 1 };
 }
 {
-    <INTERVAL> value = typedValueExpression()
+    <INTERVAL> value = valueExpression()
     (
         intervalType = intervalQualifier()
     |
@@ -11586,7 +11586,7 @@ checkConstraintDefinition(TableName constraintName, String columnName)
 }
 {
     <CHECK> beginToken = <LEFT_PAREN> 
-    value = typedValueExpression()
+    value = valueExpression()
     endToken = <RIGHT_PAREN>
     {
         if (columnName != null) {
