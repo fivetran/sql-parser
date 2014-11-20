@@ -12370,16 +12370,8 @@ thenElseExpression() throws StandardException :
 {
     ValueNode expr;
 }
-{    
-    LOOKAHEAD ( { getToken(1).kind == NULL } )
-    <NULL>
-    {
-        ValueNode value = (ValueNode)nodeFactory.getNode(NodeTypes.UNTYPED_NULL_CONSTANT_NODE,
-                                                         parserContext);
-        return value;
-    }
-|
-    expr = additiveExpression()
+{
+    expr = valueExpression()
     {
         return expr;
     }

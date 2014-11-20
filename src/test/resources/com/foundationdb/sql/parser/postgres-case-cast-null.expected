@@ -1,0 +1,46 @@
+com.foundationdb.sql.parser.CursorNode@59fd97a8
+name: null
+updateMode: UNSPECIFIED
+statementType: SELECT
+resultSet: 	
+	com.foundationdb.sql.parser.SelectNode@f5ac9e4
+	isDistinct: false
+	resultColumns: 		
+		com.foundationdb.sql.parser.ResultColumnList@123ef382
+
+		[0]:		
+		com.foundationdb.sql.parser.ResultColumn@dbf57b3
+		exposedName: null
+		name: null
+		tableName: null
+		isDefaultColumn: false
+		type: null
+		expression: 			
+			com.foundationdb.sql.parser.SimpleCaseNode@384ad17b
+			type: null
+			operand: 				
+				com.foundationdb.sql.parser.NumericConstantNode@61862a7f
+				value: 1
+				type: INTEGER NOT NULL
+			when: 				
+				com.foundationdb.sql.parser.NumericConstantNode@441772e
+				value: 2
+				type: INTEGER NOT NULL
+			then: 				
+				com.foundationdb.sql.parser.CastNode@7334aada
+				castTarget: INTEGER
+				type: INTEGER
+				castOperand: 					
+					com.foundationdb.sql.parser.NumericConstantNode@1d9b7cce
+					value: 1
+					type: INTEGER NOT NULL
+			else: 				
+				com.foundationdb.sql.parser.CastNode@4d9e68d0
+				castTarget: INTEGER
+				type: INTEGER
+				castOperand: 					
+					com.foundationdb.sql.parser.UntypedNullConstantNode@42e99e4a
+					value: null
+					type: null
+	fromList: 		
+		com.foundationdb.sql.parser.FromList@14dd9eb7
